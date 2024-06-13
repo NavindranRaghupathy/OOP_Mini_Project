@@ -12,5 +12,7 @@ public class Commerce {
         System.out.println("Choose category : ");
         Scanner scanner = new Scanner(System.in);
         category = scanner.nextInt();
+
+        //from here can add Error Handling method
     }
 }
