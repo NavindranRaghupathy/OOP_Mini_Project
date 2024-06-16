@@ -1,10 +1,11 @@
 
-public class Shipping_Agent {
+public class Shipping_Agent extends User {
     private boolean availability;
     private String shippingStatus;
 
 
-    public Shipping_Agent(boolean availability, String shippingStatus) {
+    public Shipping_Agent(String id, String name, String email, String username, String pass , boolean availability, String shippingStatus) {
+        super(id, name, email, username, pass);
         this.availability = availability;
         this.shippingStatus = shippingStatus;
     }
