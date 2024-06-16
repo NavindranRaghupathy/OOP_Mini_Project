@@ -1,52 +1,40 @@
 import java.util.*;
 class Physical_Goods extends Product{
     private float weight;
-    private char size;
-    private String location;
-    private float shipping_cost;
+    private int quantity_available;
+
     private static ArrayList<Physical_Goods> products = new ArrayList<>(); //to add,remove product
 
-    public Physical_Goods(String p_id,String p_name,String description,float price,
+    public Physical_Goods(String s_id , String p_id,String p_name,float price,
                          int quantity_available,String date_added,String brand,
-                         float weight , char size , String location , float shipping_cost){
-                            super(p_id,p_name,description,price,quantity_available,date_added,brand);
+                         float weight){
+                            super(s_id , p_id,p_name,price,date_added,brand);
                             this.weight = weight;
-                            this.size = size;
-                            this.location = location;
-                            this.shipping_cost = shipping_cost;
+                            this.quantity_available = quantity_available;
     }
 
     public void setWeight(float weight){this.weight = weight;}
-    public void setSize(char size){this.size = size;}
-    public void setLocation(String location){this.location = location;}
-    public void setShippingCost(float shipping_cost){this.shipping_cost = shipping_cost;}
+    public void setQuantity(int quantity_available){this.quantity_available = quantity_available;}
 
     public float getWeight(){return weight;}
-    public char getSize(){return size;}
-    public String getLocation(){return location;}
-    public float getShippingCost(){return shipping_cost;}
+    public int getQuantity(){return quantity_available;}
 
     public void addProduct(Physical_Goods product) {
         products.add(product);
         System.out.println("Product added successfully.");
     }
 
-    public void updateProduct(String p_id, String p_name, String description, float price,
-                              int quantity_available, float rating, String date_added, String brand,
-                              float weight, char size, String location, float shipping_cost) {   //cannot send an object,with this we analyse one by one to update any changes.
+    public void updateProduct(String p_id, String p_name, float price,
+                              int quantity_available,  String date_added, String brand,
+                              float weight) {   //cannot send an object,with this we analyse one by one to update any changes.
         for (Physical_Goods product : products) {
             if (product.getPId().equals(p_id)) { //Means product ID should all be the correct one,so i refer product ID.If wanna change product id , i think need to do another function for that.
                 product.setPName(p_name);
-                product.setDescription(description);
                 product.setPrice(price);
-                product.setQuantity(quantity_available);
-                product.setRating(rating);
+                this.quantity_available = quantity_available;
                 product.setDate(date_added);
                 product.setBrand(brand);
                 product.setWeight(weight);
-                product.setSize(size);
-                product.setLocation(location);
-                product.setShippingCost(shipping_cost);
                 System.out.println("Product updated successfully.");
                 return;
             }
@@ -66,11 +54,6 @@ class Physical_Goods extends Product{
     }
 
     public void printDetails() {
-        super.printDetails();
-        System.out.println("Weight: " + weight);
-        System.out.println("Size: " + size);
-        System.out.println("Location: " + location);
-        System.out.println("Shipping Cost: RM" + shipping_cost);
+        System.out.printf("%-15s %-15s %-10.2f %-10.2f %-24d %-20s %-15s\n" , getPId() , getPName() , weight , getPrice() , quantity_available , getDate() , getBrand());
     }
-
 }
