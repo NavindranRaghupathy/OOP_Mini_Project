@@ -18,7 +18,7 @@ public class Commerce {
 
     static void CustMenu()
     {
-        System.out.println("\n1) View Order \n2) Add Product to cart \n3) Update Product in Cart \n4) Remove Product from cart \n5) Make Payment");
+        System.out.println("\n1) View Order \n2) Add Product to cart \n3) Remove Product from cart \n4) Make Payment");
         System.out.print("Please selsect an option : ");
     }
 
@@ -96,7 +96,7 @@ public class Commerce {
             phone = phone.substring(1);
             //System.out.println(name + " " + id + " " + email + " " + uname + " " + pass + " " + address + " " + phone);
             // c[i] = new Customer(id , name , email , uname , pass , address , phone);
-            // i++;   
+            // i++;
             c.add(new Customer(id, name, email, uname, pass, address, phone));
         }
             in.close();
@@ -125,7 +125,7 @@ public class Commerce {
              }
              return new Customer("" , "" , "" , "" , "" ,"" , "");
     }
-    
+
     static ArrayList<User> readSeller(Scanner in)
     {
         in.useDelimiter(",|\\n");
@@ -139,7 +139,7 @@ public class Commerce {
             email = in.next();
             uname = in.next();
             pass = in.next();
-            store = in.nextLine(); 
+            store = in.nextLine();
             store = store.substring(1);
             //System.out.println(name + " " + id + " " + email + " " + uname + " " + pass + " " + store);
             s.add(new Seller(id, name, email, uname, pass, store));
@@ -147,7 +147,7 @@ public class Commerce {
             in.close();
             return s;
     }
-    
+
     static Seller sellerLoginCheck (ArrayList<User> sell)
     {
             String uname2;
@@ -221,11 +221,10 @@ public class Commerce {
                                     System.out.print("\nDo you want to continue(y/n) : ");
                                     cont = sc.next().charAt(0);
                                     break;
-                            // case 3 : current.updateProduct(sc);
-                            //         break;
-                            case 4 : current.deleteProduct(sc);
+                            case 3 : current.deleteProduct(sc);
                                     break;
-                            case 5 : current.checkout();
+                            case 4 : in = new Scanner (new File("Review.csv"));
+                            		 current.checkout(in , sc);
                                      System.out.print("\nDo you want to continue(y/n) : ");
                                      cont = sc.next().charAt(0);
                                      break;
@@ -264,8 +263,8 @@ public class Commerce {
                                   break;
                      }
                      break;
-                     
-                     
+
+
         }
 
         sc.close();
