@@ -24,27 +24,59 @@ class Cart{
         product = new ArrayList<>();
     }
 
-    public void addItem(Product p , int quantity , float price)
+    public ArrayList<Product> getProduct()
     {
-        product.add(p);
-        this.quantity.add(quantity);
-        this.price.add(price);
-        totalPrice += price*quantity;
+        return product;
     }
+
+    public void addItem(Product p , int q , float price)
+    {
+        
+        boolean found = false;
+
+        for(int i=0;i<product.size();i++)
+        {
+            if(p.getPId().equals(product.get(i).getPId()))
+            {
+                quantity.set(i,quantity.get(i)+q);
+                totalPrice += this.price.get(i) * q;
+                //found = true;
+                return;
+            }
+        }
+
+        if(found==false)
+        {
+            product.add(p);
+            this.quantity.add(q);
+            this.price.add(price);
+            totalPrice += price*q;
+        }
+    }
+
+    public void removeAllProduct()
+    {
+		product.clear();
+		quantity.clear();
+		price.clear();
+        totalPrice = 0.00;
+        afterDisc = 0.00;
+	}
 
     public void removeItem(String id)
     {
         //System.out.print(product.size());
         for(int i=0;i<product.size();i++)
-        {        
+        {
+            System.out.println(i);
             if(id.equals(product.get(i).getPId()))
-            {
-                product.remove(i);
-                quantity.remove(i);
-                price.remove(i);
-                totalPrice -= price.get(i)*quantity.get(i);
-                break;
-            } 
+			{
+				totalPrice -= price.get(i)*quantity.get(i);
+			      product.remove(i);
+			      quantity.remove(i);
+			      price.remove(i);
+			      break;
+             }
         }
     }
 
@@ -98,7 +130,7 @@ class Cart{
             writer.printf("%-26s RM %-6.2f \n", "After Disc :", afterDisc);
             writer.println("-------------------------------------");
             writer.println("-------------------------------------");
-            writer.println("\nCASHIER NAME : Automated");
+            writer.println("\nThis receipt is automated");
             writer.println("-------------------------------------");
             writer.printf("%22s\n", "THANK YOU");
             writer.println("-------------------------------------");
@@ -127,7 +159,7 @@ class Cart{
             System.out.printf("%-26s RM %-6.2f \n" , "After Disc :" , afterDisc);
             System.out.println("-------------------------------------");
             System.out.println("-------------------------------------");
-            System.out.println("\nCASHIER NAME : " + "Automated");
+            System.out.println("\nThis receipt is automated");
             System.out.println("-------------------------------------");
             System.out.printf("%22s\n" , "THANK YOU");
             System.out.println("-------------------------------------");
