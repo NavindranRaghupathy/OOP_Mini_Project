@@ -3,6 +3,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
+import java.io.*;
 
 
 class Customer extends User {
@@ -11,14 +12,16 @@ class Customer extends User {
     private ArrayList<Physical_Goods> product;
     private ArrayList<Services> service;
     private Cart cart;
+    private Review[] review;
 
     public Customer(String id, String name, String email, String username, String pass, String address, String phone_no) {
         super(id, name, email, username, pass);
         this.address = address;
         this.phone_no = phone_no;
         cart = new Cart(id);
+        review = new Review[50];
     }
-    
+
     public void ReadCustPhysical(ArrayList<Physical_Goods> p)
     {
         product = p;
@@ -45,7 +48,7 @@ class Customer extends User {
                 p.printDetails();
         }
 
-        System.out.printf("\n%-15s %-10s %-10s %-20s %-15s %-15s \n" , "Product ID" , "Name" , "Price" , "Date Added" , "Brand" , "Duration");
+        System.out.printf("\n%-15s %-10s %-10s %-20s %-15s %-15s %-10s\n" , "Product ID" , "Name" , "Price" , "Date Added" , "Brand" , "Duration" , "Review");
         for(Services s : service)
         {
                 s.printDetails();
@@ -60,7 +63,7 @@ class Customer extends User {
         viewProduct();
         System.out.print("\nPlease enter the product ID : ");
         String id = sc.next();
-        
+
 
         if(id.charAt(0)=='P')
         {
@@ -78,7 +81,7 @@ class Customer extends User {
                     }
                 }
             }
-            
+
         }
         else if(id.charAt(0)=='C')
         {
@@ -101,7 +104,7 @@ class Customer extends User {
         System.out.print("\nPlease enter the product ID to delete : ");
         String id = sc.next();
         cart.removeItem(id);
-        
+
     }
 
     public void writePhysicalGoods()
@@ -123,12 +126,13 @@ class Customer extends User {
         }
     }
 
-    public void checkout() {
-        System.out.println("Cust Payment");
+    public void checkout(Scanner in , Scanner sc) {
         cart.checkout();
         cart.printReceipt(getName());
         cart.writeReceipt(getName());
         writePhysicalGoods();
+        giveReview(in , sc);
+        cart.removeAllProduct();
     }
 
     public void SignUp(ArrayList<User> user , Scanner sc)
@@ -173,6 +177,88 @@ class Customer extends User {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
+    }
+
+    public int readReview(Scanner in)
+    {
+        in.useDelimiter(",|\\n");
+        String temp;
+        String pid="" , rid="" , date="";
+        float rating;
+        int i =0,total;
+        while(in.hasNext())
+        {
+            pid = in.next();
+            rid  = in.next();
+            date = in.next();
+            temp = in.next();
+            rating = Float.parseFloat(temp);
+            temp = in.next().trim();
+            total = Integer.parseInt(temp);
+
+            //System.out.println(pid + " " + rid + " " + date + " " + rating + " " + total);
+            review[i] = new Review(pid , rid , rating , total , date);
+            i++;
+        }
+            in.close();
+            return i;
+    }
+
+    public void writeReview(int n)
+    {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("Review.csv"))) {
+            for (int i=0;i<n;i++) {
+                    writer.print(review[i].getPID() + ",");
+                    writer.print(review[i].getID() + ",");
+                    writer.print(review[i].getDate() + ",");
+                    writer.print(review[i].getRate() + ",");
+                    writer.print(review[i].getTotalCust());
+                    writer.println();
+            }
+        } catch (IOException e) {
+            System.out.println("Error while creating the file!");
+        }
+    }
+
+    public void giveReview(Scanner in , Scanner sc)
+    {
+        int n=0;
+		n = readReview(in);
+        boolean found = false;
+
+        ArrayList<Product> p = cart.getProduct();
+
+        System.out.println("\nPlease give rating for the products you order =>");
+        for(int i=0;i<p.size();i++)
+        {
+            System.out.print(p.get(i).getPName() + "(" + p.get(i).getBrand() + ") : ");
+            float rating = sc.nextFloat();
+
+            for(int j=0;j<n;j++)
+            {
+                if(p.get(i).getPId().equals(review[j].getPID()))
+                {
+                    review[j].setRate(rating);
+                    review[j].setTotal();
+                    found = true;
+                    break;
+                }   
+            }
+
+            if(!found)
+            {
+                String sub = review[n-1].getID();
+                sub = sub.substring(1, sub.length());
+                int id1 = Integer.parseInt(sub);
+                String rid = "R" + (id1+1);
+
+                review[n] = new Review(p.get(i).getPId() , rid , rating);
+                n++;
+            }
+        }
+
+        writeReview(n);
+
     }
 }
