@@ -34,7 +34,6 @@ public class Admin extends User {
         System.out.print("Password: ");
         String pass = sc.nextLine();
 
-        // Dummy credentials for Admin (should be replaced with actual validation logic)
         if (uname.equals("admin") && pass.equals("admin123")) {
             System.out.println("Login successful!");
         } else {
@@ -53,7 +52,7 @@ public class Admin extends User {
             System.out.println("1) Customer\n2) Seller\n3) Shipping Agent\n4) Logout");
             System.out.print("Select user: ");
             int opt = sc.nextInt();
-            sc.nextLine(); // Consume newline
+            sc.nextLine();
 
             if (opt == 4) {
                 Logout();
@@ -66,7 +65,7 @@ public class Admin extends User {
                     System.out.println("1) Add\n2) Delete");
                     System.out.print("Please select an option: ");
                     opt2 = sc.nextInt();
-                    sc.nextLine(); // Consume newline
+                    sc.nextLine();
                     if (opt2 == 1) {
                         System.out.print("Customer name: ");
                         String custName = sc.nextLine();
@@ -98,7 +97,7 @@ public class Admin extends User {
                     System.out.println("1) Add\n2) Delete");
                     System.out.print("Please select an option: ");
                     opt2 = sc.nextInt();
-                    sc.nextLine(); // Consume newline
+                    sc.nextLine();
                     if (opt2 == 1) {
                         System.out.print("Seller name: ");
                         String sellerName = sc.nextLine();
@@ -128,7 +127,7 @@ public class Admin extends User {
                     System.out.println("1) Add\n2) Delete");
                     System.out.print("Please select an option: ");
                     opt2 = sc.nextInt();
-                    sc.nextLine(); // Consume newline
+                    sc.nextLine();
                     if (opt2 == 1) {
                         System.out.print("Shipping agent name: ");
                         String agentName = sc.nextLine();

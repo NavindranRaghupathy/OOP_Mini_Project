@@ -194,8 +194,6 @@ public class Commerce {
                      admin.Logout();
                      break;
 
-                     
-
             case 2 : current = customerLoginCheck(customers);
                      if(current.getName().equals(""))
                      {
