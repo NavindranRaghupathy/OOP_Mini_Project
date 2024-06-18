@@ -173,10 +173,10 @@ public class Commerce {
     public static void main(String[] args)throws IOException
     {
         Scanner sc = new Scanner(System.in);
-        Scanner in = new Scanner (new File("customer.csv"));
-        ArrayList<User> customers = readCustomer(in);
+        Scanner in = new Scanner (new File("src\\customer.csv"));
+        ArrayList<User> customers = readCustomer(in); 
 
-        in = new Scanner (new File("Seller.csv"));
+        in = new Scanner (new File("src\\Seller.csv"));
         ArrayList<User> sellers = readSeller(in);
 
         User agents[] = new Shipping_Agent[10];
@@ -188,20 +188,26 @@ public class Commerce {
 
         switch(opt1)
         {
-            case 1 : break;
+            case 1 : Admin admin = new Admin("1", "Admin", "admin@example.com", "admin", "admin123");
+                     admin.Login(sc);
+                     admin.manageUsers(sc);
+                     admin.Logout();
+                     break;
+
+                     
 
             case 2 : current = customerLoginCheck(customers);
                      if(current.getName().equals(""))
                      {
                         current.SignUp(customers , sc);
-                        in = new Scanner (new File("customer.csv"));
+                        in = new Scanner (new File("src\\customer.csv"));
                         customers = readCustomer(in);
                         current = customerLoginCheck(customers);
                      }else
                      {
-                        in = new Scanner (new File("physical_product.csv"));
+                        in = new Scanner (new File("src\\physical_product.csv"));
                         ArrayList<Physical_Goods> physical = readPhysical(in);
-                        in = new Scanner (new File("Service_Product.csv"));
+                        in = new Scanner (new File("src\\Service_Product.csv"));
                         ArrayList<Services> service = readServices(in);
                         current.ReadCustPhysical(physical);
                         current.ReadCustService(service);
@@ -223,8 +229,8 @@ public class Commerce {
                                     break;
                             case 3 : current.deleteProduct(sc);
                                     break;
-                            case 4 : in = new Scanner (new File("Review.csv"));
-                            		 current.checkout(in , sc);
+                            case 4 : in = new Scanner (new File("src\\Review.csv"));
+                            		 //current.checkout(in , sc);
                                      System.out.print("\nDo you want to continue(y/n) : ");
                                      cont = sc.next().charAt(0);
                                      break;
@@ -242,9 +248,9 @@ public class Commerce {
                         System.out.println("Incorrect Username or password");
                         System.exit(0);
                     }
-                     in = new Scanner (new File("physical_product.csv"));
+                     in = new Scanner (new File("src\\physical_product.csv"));
                      current.ReadPhysicalProduct(in);
-                     in = new Scanner (new File("Service_Product.csv"));
+                     in = new Scanner (new File("src\\Service_Product.csv"));
                      current.ReadServiceProduct(in);
                      SellerMenu();
                      int opt2 = sc.nextInt();
