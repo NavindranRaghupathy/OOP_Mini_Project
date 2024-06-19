@@ -1,7 +1,5 @@
 import java.util.*;
 import java.time.*;
-import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 
 
@@ -24,6 +22,9 @@ class Cart{
         product = new ArrayList<>();
     }
 
+    public ArrayList<Integer> getQuantity(){
+        return quantity;
+    }
     public ArrayList<Product> getProduct()
     {
         return product;
@@ -167,10 +168,72 @@ class Cart{
         }
     }
 
-    public void checkout()
+    public void checkout(String name , String custId,String address)
     {
         discount();
         payment = new Payment(cart_id, afterDisc);
         payment.pay();
+
+        printReceipt(name);
+        writeReceipt(name);
+
+        ArrayList<Shipment>shipment=new ArrayList<>();
+        if(payment.getStatus()){
+            ReadShipping(shipment);
+            String sub = shipment.get(shipment.size()-1).getShippingId();
+            sub = sub.substring(1, sub.length());
+            int id1 = Integer.parseInt(sub);
+            String id = "B" + (id1+1);
+            for(int i=0; i<product.size();i++){
+                String pid = product.get(i).getPId();
+                if(pid.charAt(0) == 'P')
+                    shipment.add(new Shipment(id,address,custId,product.get(i).getPId(),product.get(i).getPName(),quantity.get(i)));
+                else
+                    continue;
+            }
+        try (PrintWriter writer = new PrintWriter(new FileWriter("shipping.csv"))) {
+            for (Shipment s: shipment) {
+               
+                    writer.print(s.getShippingId() + ",");
+                    writer.print(s.getCustId() + ",");
+                    writer.print(s.getProductId() + ",");
+                    writer.print(s.getProducName()+ ",");
+                    writer.print(s.getQuantity() + ",");
+                    writer.print(s.getAddress());
+                    writer.println();
+                
+            }
+        } catch (IOException e) {
+            System.out.println("Error : File not found");
+        }
     }
+    }
+
+    public void ReadShipping(ArrayList<Shipment>shipment)
+    {
+        try{
+            Scanner in2 = new Scanner(new File("Shipping.csv"));
+        in2.useDelimiter(",|\\n");
+        String temp;
+        String cid="" , pid="" , pname="" , sId="" , address = "";
+        int qty = 0;
+        while(in2.hasNext())
+        {
+            sId = in2.next();
+            cid = in2.next();
+            pid = in2.next();
+            pname = in2.next();
+            temp = in2.next();
+            qty = Integer.parseInt(temp);
+            address = in2.next();
+            
+            //System.out.println(sid + " " + pid + " " + pname + " " + price + " " + quantity + " " + date + " " + brand + " " + weight);
+            shipment.add(new Shipment(sId , address,cid,pid,pname,qty));
+        }
+            in2.close();
+    }catch(IOException e){
+        System.out.println("File not found");
+    }
+}
+
 }
