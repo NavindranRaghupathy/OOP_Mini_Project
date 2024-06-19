@@ -1,4 +1,3 @@
-import java.io.Console;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -6,7 +5,7 @@ import java.util.*;
 import java.io.*;
 
 
-class Customer extends User {
+class Customer extends User implements InnerCust_Int {
     private String address;
     private String phone_no;
     private ArrayList<Physical_Goods> product;
@@ -21,6 +20,12 @@ class Customer extends User {
         cart = new Cart(id);
         review = new Review[50];
     }
+
+    public Customer() {
+
+    }
+
+
 
     public void ReadCustPhysical(ArrayList<Physical_Goods> p)
     {
@@ -42,7 +47,7 @@ class Customer extends User {
 
     public void viewProduct()
     {
-        System.out.printf("%-15s %-15s %-10s %-10s %-24s %-20s %-15s \n" , "Product ID" , "Name" , "Weight" , "Price" , "Quantity Available" , "Date Added" , "Brand");
+        System.out.printf("%-15s %-15s %-10s %-10s %-24s %-20s %-15s %-10s\n" , "Product ID" , "Name" , "Weight" , "Price" , "Quantity Available" , "Date Added" , "Brand" , "Review");
         for(Physical_Goods p : product)
         {
                 p.printDetails();
@@ -127,12 +132,66 @@ class Customer extends User {
     }
 
     public void checkout(Scanner in , Scanner sc) {
-        cart.checkout();
-        cart.printReceipt(getName());
-        cart.writeReceipt(getName());
+        cart.checkout(getName() , getID() , address);
+        // cart.printReceipt(getName());
+        // cart.writeReceipt(getName());
         writePhysicalGoods();
         giveReview(in , sc);
+        
         cart.removeAllProduct();
+    }
+
+    public void updateProfile(Scanner sc , ArrayList<User> user)
+    {
+        viewProfile();
+        String name , email , uname , pass ;
+        int opt;
+        do{
+            System.out.println("\n1) Name \n2) Email \n3) Username \n4) Password \n5) Address \n6) Phone number\n");
+            System.out.print("Please select an option : ");
+            opt = sc.nextInt();
+            sc.nextLine();
+
+
+            switch(opt)
+            {
+                case 1 : System.out.print("\nName : ");
+                        name = sc.nextLine();
+                        setName(name);
+                        break;
+                case 2 : System.out.print("\nEmail : ");
+                        email = sc.nextLine();
+                        setEmail(email);
+                        break;
+                case 3 : System.out.print("\nUsername : ");
+                        uname = sc.nextLine();
+                        setUsername(uname);
+                        break;
+                case 4 : System.out.print("\nPassword : ");
+                        pass = sc.nextLine();
+                        setPass(pass);
+                        break;
+                case 5 : System.out.print("\nAdress : ");
+                        this.address = sc.nextLine();
+                        break;
+                case 6 : System.out.print("\nPhone num : ");
+                        this.phone_no = sc.nextLine();
+                        break;
+                default : System.out.println("Invalid option selected!");
+                        break;
+            }
+        
+        }while(opt<1 | opt>6);
+
+        for(int i=0;i<user.size();i++)
+        {
+            if(getID().equals(user.get(i).getID()))
+            {
+                user.set(i, this);
+                break;
+            }
+                
+        }
     }
 
     public void SignUp(ArrayList<User> user , Scanner sc)
@@ -162,21 +221,6 @@ class Customer extends User {
         id = "A" + (id1+1);
         //System.out.println(id);
         user.add(new Customer(id, name, email, uname, pass2, address, phone));
-
-        try (PrintWriter writer = new PrintWriter(new FileWriter("customer.csv"))) {
-            for (User u : user) {
-                    writer.print(u.getName() + ",");
-                    writer.print(u.getID() + ",");
-                    writer.print(u.getEmail() + ",");
-                    writer.print(u.getUsername() + ",");
-                    writer.print(u.getPass() + ",");
-                    writer.print(u.getAddress() + ",");
-                    writer.print(u.getPhoneNo());
-                    writer.println();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -229,7 +273,7 @@ class Customer extends User {
 
         ArrayList<Product> p = cart.getProduct();
 
-        System.out.println("\nPlease give rating for the products you order =>");
+        System.out.println("\nPlease give rating for the products you order =>\n");
         for(int i=0;i<p.size();i++)
         {
             System.out.print(p.get(i).getPName() + "(" + p.get(i).getBrand() + ") : ");
@@ -259,6 +303,33 @@ class Customer extends User {
         }
 
         writeReview(n);
+    }
 
+    public void viewProfile()
+    {
+        System.out.println("\nName : " + getName());
+        System.out.println("Email : " + getEmail());
+        System.out.println("Address : " + address);
+        System.out.println("Phone num : " + phone_no);
+    }
+
+    public void Logout(ArrayList<User> user)
+    {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("customer.csv"))) {
+            for (User u : user) {
+                    writer.print(u.getName() + ",");
+                    writer.print(u.getID() + ",");
+                    writer.print(u.getEmail() + ",");
+                    writer.print(u.getUsername() + ",");
+                    writer.print(u.getPass() + ",");
+                    writer.print(u.getAddress() + ",");
+                    writer.print(u.getPhoneNo());
+                    writer.println();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.exit(0);
     }
 }
