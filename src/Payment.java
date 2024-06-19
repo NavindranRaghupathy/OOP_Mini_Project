@@ -15,7 +15,6 @@ class Payment {
         this.amount = amount;
         status = false;
         transaction_date = LocalDate.now();
-        System.out.println(amount);
     }
 
     // Setters
@@ -90,7 +89,7 @@ class Payment {
             credit_card_no = cardNumberField.getText();
             expiry = expiryField.getText();
             cvv = cvvField.getText();
-            
+
             // System.out.println("Card Number: " + credit_card_no);
             // System.out.println("Expiry Date: " + expiry);
             // System.out.println("CVV: " + cvv);
