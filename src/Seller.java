@@ -147,7 +147,7 @@ class Seller extends User {
             String pid = "P" + (id1+1);
             product.add(new Physical_Goods(getID() , pid, pname, price, quantity , date , brand , weight));
 
-            writePhysicalGoods();
+            //writePhysicalGoods();
         }
 
         else if(opt1==2)
@@ -175,7 +175,7 @@ class Seller extends User {
             String pid = "C" + (id1+1);
             service.add(new Services(getID() , pid, pname, price , date , brand , duration));
 
-            writeServices();
+            //writeServices();
         }
     }
     
@@ -239,7 +239,7 @@ class Seller extends User {
                 }
             }
 
-            writePhysicalGoods();
+            //writePhysicalGoods();
             
         }
 
@@ -294,7 +294,7 @@ class Seller extends User {
                 }
             }
 
-            writeServices();
+            //writeServices();
             
         }
         
@@ -323,7 +323,7 @@ class Seller extends User {
 
             }
 
-            writePhysicalGoods();
+            //writePhysicalGoods();
         }
 
         else if(opt1==2)
@@ -335,9 +335,66 @@ class Seller extends User {
 
             }
 
-            writeServices();
+            //writeServices();
         }
         
+    }
+
+    public void viewProfile()
+    {
+        System.out.println("\nName : " + getName());
+        System.out.println("Email : " + getEmail());
+        System.out.println("Store Name : " + Store_name);
+    }
+
+    public void updateProfile(Scanner sc , ArrayList<User> user)
+    {
+        viewProfile();
+        String name , email , uname , pass ;
+        int opt;
+        do{
+            System.out.println("\n1) Name \n2) Email \n3) Username \n4) Password \n5) Strore name \n");
+            System.out.print("Please select an option : ");
+            opt = sc.nextInt();
+            sc.nextLine();
+
+
+            switch(opt)
+            {
+                case 1 : System.out.print("\nName : ");
+                        name = sc.nextLine();
+                        setName(name);
+                        break;
+                case 2 : System.out.print("\nEmail : ");
+                        email = sc.nextLine();
+                        setEmail(email);
+                        break;
+                case 3 : System.out.print("\nUsername : ");
+                        uname = sc.nextLine();
+                        setUsername(uname);
+                        break;
+                case 4 : System.out.print("\nPassword : ");
+                        pass = sc.nextLine();
+                        setPass(pass);
+                        break;
+                case 5 : System.out.print("\nStore name : ");
+                        this.Store_name = sc.nextLine();
+                        break;
+                default : System.out.println("Invalid option selected!");
+                        break;
+            }
+        
+        }while(opt<1 | opt>6);
+
+        for(int i=0;i<user.size();i++)
+        {
+            if(getID().equals(user.get(i).getID()))
+            {
+                user.set(i, this);
+                break;
+            }
+                
+        }
     }
 
     public void viewProduct() {
@@ -356,7 +413,24 @@ class Seller extends User {
         }
     }
 
-    public void Logout() {}
+    public void Logout(ArrayList<User> user) {
+        writePhysicalGoods();
+        writeServices();
+        try (PrintWriter writer = new PrintWriter(new FileWriter("customer.csv"))) {
+            for (User u : user) {
+                    writer.print(u.getID() + ",");
+                    writer.print(u.getName() + ",");
+                    writer.print(u.getEmail() + ",");
+                    writer.print(u.getUsername() + ",");
+                    writer.print(u.getPass() + ",");
+                    writer.print(u.getStoreName());
+                    writer.println();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-    public void updateProfile() {}
+        System.exit(0);
+    }
+
 }
