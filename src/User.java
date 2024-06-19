@@ -16,6 +16,10 @@ class User {
         this.pass = pass;
     }
 
+    public User() {
+
+    }
+
     public String getName(){return name;}
     public String getID(){return id;}
     public String getEmail(){return email;}
@@ -24,8 +28,18 @@ class User {
     public String getAddress() {return null;}
     public String getPhoneNo() {return null;}
     public String getStoreName() {return null;}
+    public boolean isAvailability(){return false;} //Kuganes
+    public String getShippingStatus(){return null;} //Kuganes
 
-    public void viewProduct() {}
+    public void setName(String n){name=n;}
+    public void setEmail(String e){email=e;}
+    public void setUsername(String u){username=u;}
+    public void setPass(String p){pass=p;}
+    public void setAddress() {}
+    public void setPhoneNo() {}
+    public void setStoreName() {}
+
+    public void viewProduct(){}
 
     public void ReadServiceProduct(Scanner in){}
     public void ReadPhysicalProduct(Scanner in){}
@@ -33,11 +47,15 @@ class User {
     public void ReadCustPhysical(ArrayList<Physical_Goods> p){}
     public void ReadCustService(ArrayList<Services> s){}
 
+    public void ReadShipping(){} //k
+    public void AnotherFile(){}  //k
+    public void ViewOrderForDelivery(){} //k
+
     public void SignUp(ArrayList<User> user , Scanner sc) {}
 
-    public void Logout() {}
+    public void Logout(ArrayList<User> user) {}
 
-    public void updateProfile() {}
+    public void updateProfile(Scanner sc , ArrayList<User> user){}
 
     public void addProduct(Scanner sc){}
     public void updateProduct(Scanner sc){}
@@ -45,5 +63,7 @@ class User {
 
     public void viewOrder(){}
     public void buyProducts(Scanner sc){}
-    public void checkout(){}
+    public void checkout(Scanner in , Scanner sc){}
+
+    public void updateProfile(Scanner sc , ArrayList<User> user,String fileName){}
 }
