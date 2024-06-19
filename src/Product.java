@@ -1,12 +1,11 @@
-import java.util.ArrayList;
-
-class Product{
+abstract class Product{
     private String s_id;
     private String p_id;
     private String p_name;
     private float price;
     private String date_added;
     private String brand;
+
 
     public Product(String s_id , String p_id,String p_name,float price,String date_added,String brand){
         this.s_id = s_id;
@@ -31,6 +30,7 @@ class Product{
     public String getDate(){return date_added;}
     public String getBrand(){return brand;}
 
-    public void printDetails(){}
+    public abstract void printDetails();
+    public abstract void readReview();
     
 }
