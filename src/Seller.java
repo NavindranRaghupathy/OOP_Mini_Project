@@ -112,10 +112,14 @@ class Seller extends User {
     public void addProduct(Scanner sc) {
 
         //viewProduct();
-        System.out.print("\n1) Physical goods \n2) Services \n");
-        System.out.print("\nPlease select an option : ");
-        int opt1 = sc.nextInt();
-        sc.nextLine();
+        int opt1;
+        do{
+            System.out.print("\n1) Physical goods \n2) Services \n");
+            System.out.print("\nPlease select an option : ");
+            opt1 = sc.nextInt();
+            sc.nextLine();
+        }while(opt1<1 || opt1>1);
+
         System.out.println("Please enter the product details =>");
 
         if(opt1==1)
@@ -182,16 +186,20 @@ class Seller extends User {
 
     public void updateProduct(Scanner sc) {
         viewProduct();
+        int opt1;
 
-        System.out.print("\n1) Physical goods \n2) Services \n");
-        System.out.print("\nPlease select an option : ");
-        int opt1 = sc.nextInt();
-        sc.nextLine();
+        do{
+            System.out.print("\n1) Physical goods \n2) Services \n");
+            System.out.print("\nPlease select an option : ");
+            opt1 = sc.nextInt();
+            sc.nextLine();
+        }while(opt1<1 || opt1>2);
 
         if(opt1==1)
         {
             System.out.print("\nPlease enter ID of product : ");
             String id1 = sc.next();
+            id1 = id1.toUpperCase();
             System.out.print("\n1) Product Name \n2) Price \n3) Brand \n4) Quantity");
             System.out.print("\nPlease select an option : ");
             opt1 = sc.nextInt();
@@ -247,6 +255,7 @@ class Seller extends User {
         {
             System.out.print("\nPlease enter ID of product : ");
             String id1 = sc.next();
+            id1 = id1.toUpperCase();
             System.out.print("\n1) Product Name \n2) Price \n3) Brand \n4) Duration");
             System.out.print("\nPlease select an option : ");
             opt1 = sc.nextInt();
@@ -305,14 +314,18 @@ class Seller extends User {
     public void deleteProduct(Scanner sc)
     {
         viewProduct();
+        int opt1;
 
-        System.out.print("\n1) Physical goods \n2) Services \n");
-        System.out.print("\nPlease select an option : ");
-        int opt1 = sc.nextInt();
-        sc.nextLine();
+        do{
+            System.out.print("\n1) Physical goods \n2) Services \n");
+            System.out.print("\nPlease select an option : ");
+            opt1 = sc.nextInt();
+            sc.nextLine();
+        }while(opt1<1 || opt1>2);
 
         System.out.print("\nPlease enter ID of product : ");
         String id1 = sc.next();
+        id1 = id1.toUpperCase();
 
         if(opt1==1)
         {
@@ -398,25 +411,31 @@ class Seller extends User {
     }
 
     public void viewProduct() {
-        System.out.printf("%-15s %-15s %-10s %-10s %-24s %-20s %-15s \n" , "Product ID" , "Name" , "Weight" , "Price" , "Quantity Available" , "Date Added" , "Brand");
+        System.out.println("\nPhysical Products : ");
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.printf("%-15s %-15s %-10s %-10s %-24s %-20s %-15s %-10s\n" , "Product ID" , "Name" , "Weight" , "Price" , "Quantity Available" , "Date Added" , "Brand" , "Review");
         for(Physical_Goods p : product)
         {
             if(p.getSID().equals(getID()))
                 p.printDetails();
         }
-
-        System.out.printf("\n%-15s %-10s %-10s %-20s %-15s %-15s \n" , "Product ID" , "Name" , "Price" , "Date Added" , "Brand" , "Duration");
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        
+        System.out.println("\nServices : ");
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.printf("%-15s %-10s %-10s %-20s %-15s %-15s %-10s\n" , "Product ID" , "Name" , "Price" , "Date Added" , "Brand" , "Duration" , "Review");
         for(Services s : service)
         {
             if(s.getSID().equals(getID()))
                 s.printDetails();
         }
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     }
 
     public void Logout(ArrayList<User> user) {
         writePhysicalGoods();
         writeServices();
-        try (PrintWriter writer = new PrintWriter(new FileWriter("customer.csv"))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("Seller.csv"))) {
             for (User u : user) {
                     writer.print(u.getID() + ",");
                     writer.print(u.getName() + ",");
