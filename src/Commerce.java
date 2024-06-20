@@ -29,8 +29,8 @@ public class Commerce {
     }
 
     static void ShippingAgentMenu(){
-        System.out.println("\n1) Order to be delivered \n2) Update order status \n3) View order \n4)Update profile");
-        System.out.print("Please selsect an option : ");
+        System.out.println("\n1) Order to be delivered \n2) Update order status \n3) View order \n4) Update profile \n5)Logout");
+        System.out.print("Please select an option : ");
     }
 
     static ArrayList<Physical_Goods> readPhysical(Scanner in)
@@ -103,7 +103,6 @@ public class Commerce {
             pass = in.next();
             address = in.next();
             phone = in.nextLine();
-
             phone = phone.substring(1);
             //System.out.println(name + " " + id + " " + email + " " + uname + " " + pass + " " + address + " " + phone);
             // c[i] = new Customer(id , name , email , uname , pass , address , phone);
@@ -188,7 +187,7 @@ public class Commerce {
     static ArrayList<User> readShippingAgent(Scanner in)
     {
         in.useDelimiter(",|\\n");
-        String name="" , id="" , email="" , uname="" , pass="" , ShippingStatus="";
+        String name="" , id="" , email="" , uname="" , pass="" ;
         boolean availability = false;
         ArrayList<User> s = new ArrayList<>();
 
@@ -200,9 +199,9 @@ public class Commerce {
             uname = in.next();
             pass = in.next();
             availability = Boolean.parseBoolean(in.next());
-        ShippingStatus = in.next();
+        
             //System.out.println(name + " " + id + " " + email + " " + uname + " " + pass + " " + store);
-            s.add(new Shipping_Agent(id, name, email, uname, pass, availability,ShippingStatus));
+            s.add(new Shipping_Agent(id, name, email, uname, pass, availability));
         }
             in.close();
             return s;
@@ -212,6 +211,7 @@ public class Commerce {
     {
             String uname2;
             String pass2;
+            System.out.println();
 
             Console console = System.console();
 
@@ -224,11 +224,22 @@ public class Commerce {
                 if(sa.getUsername().equals(uname2) && sa.getPass().equals(pass2))
                 {
                     System.out.println("Welcome, " + sa.getName());
-                    Shipping_Agent SA = new Shipping_Agent(sa.getID() , sa.getName() , sa.getEmail() , sa.getUsername() , sa.getPass() , sa.isAvailability() , sa.getShippingStatus() );
+                    Shipping_Agent SA = new Shipping_Agent(sa.getID() , sa.getName() , sa.getEmail() , sa.getUsername() , sa.getPass() , sa.isAvailability() );
                     return SA;
                 }
-             }
-             return new Shipping_Agent("" , "" , "" , "" , "" ,false,"");
+             } 
+             return new Shipping_Agent("" , "" , "" , "" , "" ,false);
+    }
+
+    public static int checkvalidNum(Scanner sc ,int num)
+    {
+        try{
+            num = sc.nextInt();
+            return num;
+        }catch(InputMismatchException e){
+            System.out.println("Invalid input entered!\n");
+            return 0;
+        }
     }
 
 
@@ -245,21 +256,24 @@ public class Commerce {
         ArrayList<User> shippingAgent = readShippingAgent(in);
 
        
-        // User agents[] = new Shipping_Agent[10];
+        int opt1=0;
 
+        do{
         User current = null;
-        menu();
-        int opt1 = sc.nextInt();
-        sc.nextLine();
-        char cont = 'y';
+            menu();
+            opt1 = checkvalidNum(sc, opt1);
+            sc.nextLine();
 
         switch(opt1)
         {
             case 1 : break;
 
-            case 2 : CustMenu2();
-                     int custopt = sc.nextInt();
-                     sc.nextLine();
+            case 2 : int custopt=0;
+                        do{
+                        CustMenu2();
+                        custopt = checkvalidNum(sc , custopt);
+                        sc.nextLine();
+                    }while(custopt==0);
 
                      if(custopt == 1)
                      {  
@@ -272,9 +286,9 @@ public class Commerce {
                      {
                         current = new Customer();
                         current.SignUp(customers , sc);
-                        // in = new Scanner (new File("customer.csv"));
-                        // customers = readCustomer(in);
+                        System.out.println("Account successfully created !");
                         current = customerLoginCheck(customers);
+
                      }
                 
                         in = new Scanner (new File("physical_product.csv"));
@@ -283,41 +297,33 @@ public class Commerce {
                         ArrayList<Services> service = readServices(in);
                         current.ReadCustPhysical(physical);
                         current.ReadCustService(service);
-                        int opt2;
+                        int opt2=0;
 
                         do{
-                        CustMenu();
-                        opt2 = sc.nextInt();
-                        sc.nextLine();
+                            do{
+                                CustMenu();
+                                opt2 = checkvalidNum(sc, opt2);
+                                sc.nextLine();
+                            }while(opt2==0);
                         switch(opt2)
                         {
                             case 1 : current.viewOrder();
-                                    //  System.out.print("\nDo you want to continue(y/n) : ");
-                                    //  cont = sc.next().charAt(0);
                                     break;
-                            case 2 : current.buyProducts(sc);
-                                    // System.out.print("\nDo you want to continue(y/n) : ");
-                                    // cont = sc.next().charAt(0);
+                            case 2 : current.addProduct(sc);
                                     break;
                             case 3 : current.deleteProduct(sc);
                                     break;
                             case 4 : in = new Scanner (new File("Review.csv"));
                             		 current.checkout(in , sc);
-                                    //  System.out.print("\nDo you want to continue(y/n) : ");
-                                    //  cont = sc.next().charAt(0);
                                      break;
                             case 5 : current.updateProfile(sc , customers);
-                                    //  System.out.print("\nDo you want to continue(y/n) : ");
-                                    //  cont = sc.next().charAt(0);
                                      break;
                             case 6 : current.Logout(customers);
-                                    //  cont = 'n';
                                      break;
-                            default : System.out.println("\nInvalid option choosed !\n");
-                                    break;
+                              default : break;
                         }
 
-                     }while(opt2>=1 && opt2<=6);
+                     }while(opt2>=1 && opt2<6);
                      break;
 
             case 3 : 
@@ -332,39 +338,31 @@ public class Commerce {
                      current.ReadPhysicalProduct(in);
                      in = new Scanner (new File("Service_Product.csv"));
                      current.ReadServiceProduct(in);
+                     int optSell = 0;
                      do{
-                     SellerMenu();
-                     opt2 = sc.nextInt();
-                     sc.nextLine();
-                     switch(opt2)
+                        do{
+                            SellerMenu();
+                            optSell = checkvalidNum(sc, optSell);
+                            sc.nextLine();
+                        }while(optSell==0);
+                     switch(optSell)
                      {
                         case 1 : current.viewProduct();
-                                System.out.print("\nDo you want to continue(y/n) : ");
-                                cont = sc.next().charAt(0);
                                  break;
                         case 2 : current.addProduct(sc);
-                                System.out.print("\nDo you want to continue(y/n) : ");
-                                cont = sc.next().charAt(0);
                                  break;
                         case 3 : current.updateProduct(sc);
-                                System.out.print("\nDo you want to continue(y/n) : ");
-                                cont = sc.next().charAt(0);
                                  break;
                         case 4 : current.deleteProduct(sc);
-                                System.out.print("\nDo you want to continue(y/n) : ");
-                                cont = sc.next().charAt(0);
                                  break;
                         case 5 : current.updateProfile(sc, sellers);
-                                 System.out.print("\nDo you want to continue(y/n) : ");
-                                 cont = sc.next().charAt(0);
                                  break;
                         case 6 : current.Logout(sellers);
-                                 cont = 'n';
                                  break;
                         default : System.out.println("Invalid option choosed !");
                                   break;
                      }
-                    }while(cont=='y');
+                    }while(optSell>=1 && optSell<=6);
                      break;
                      
                 case 4 : current = ShippingAgentLoginCheck(shippingAgent);
@@ -373,37 +371,40 @@ public class Commerce {
                         System.out.println("Incorrect Username or password");
                         System.exit(0);
                     }
-                    ShippingAgentMenu();
-                    int opt4 = sc.nextInt();
+                    int opt4=0;
+                    do{
+                        do{
+                            ShippingAgentMenu();
+                            opt4 = checkvalidNum(sc, opt4);
+                        }while(opt4==0);
                     switch(opt4)
                     {
                         case 1 : current.ReadShipping();
-                                 current.AnotherFile();
+                                 current.ViewFile();
+                                 current.AgentFile(sc);
                                  break;
-                        case 2 : break;
+                        case 2 : current.UpdateOrder(sc);
+                                break;
                         case 3 : current.ViewOrderForDelivery();
                                     break;
-                        case 4 : 
-                        if (current instanceof Shipping_Agent) {
-                            ((Shipping_Agent) current).updateProfile(sc, shippingAgent , "Shipping_Agent.csv");
-                            System.out.print("\nDo you want to continue(y/n) : ");
-                                     cont = sc.next().charAt(0);
-                        }
-                         else {
-                            System.out.println("Error: Current user is not a Shipping_Agent.");
-                            System.out.print("\nDo you want to continue(y/n) : ");
-                                     cont = sc.next().charAt(0);
-                        }
-                        break;
+                        case 4 : current.updateProfile(sc, shippingAgent);
+                                 break;
+                        case 5: current.Logout(shippingAgent);
+                                break;
                     default:
                         System.out.println("Invalid option selected!");
                         break;
                     }
+                }while(opt4>=1 && opt4<=5);
 
-            default : break;
+            default : 
+                        break;
             }
+
+        }while(opt1<1 || opt1>4);
 
         sc.close();
         in.close();
     }
+
 }
