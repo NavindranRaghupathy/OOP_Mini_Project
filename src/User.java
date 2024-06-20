@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class User {
+abstract class User {
     private String id;
     private String name;
     private String email;
@@ -38,6 +38,7 @@ class User {
     public void setAddress() {}
     public void setPhoneNo() {}
     public void setStoreName() {}
+    public void setID(String id){this.id=id;}
 
     public void viewProduct(){}
 
@@ -47,9 +48,13 @@ class User {
     public void ReadCustPhysical(ArrayList<Physical_Goods> p){}
     public void ReadCustService(ArrayList<Services> s){}
 
+    public void AgentFile(Scanner kv){}
+
     public void ReadShipping(){} //k
-    public void AnotherFile(){}  //k
+    public void AnotherFile(Scanner sc){}  //k
     public void ViewOrderForDelivery(){} //k
+    public void ViewFile(){} //k
+    public void UpdateOrder(Scanner kv){}//k
 
     public void SignUp(ArrayList<User> user , Scanner sc) {}
 
@@ -62,7 +67,6 @@ class User {
     public void deleteProduct(Scanner sc){}
 
     public void viewOrder(){}
-    public void buyProducts(Scanner sc){}
     public void checkout(Scanner in , Scanner sc){}
 
     public void updateProfile(Scanner sc , ArrayList<User> user,String fileName){}
