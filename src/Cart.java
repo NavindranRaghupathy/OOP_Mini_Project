@@ -46,7 +46,7 @@ class Cart{
             }
         }
 
-        if(found==false)
+        if(!found)
         {
             product.add(p);
             this.quantity.add(q);
@@ -64,14 +64,15 @@ class Cart{
         afterDisc = 0.00;
 	}
 
-    public void removeItem(String id)
+    public int removeItem(String id)
     {
+        int q=0;
         //System.out.print(product.size());
         for(int i=0;i<product.size();i++)
         {
-            System.out.println(i);
             if(id.equals(product.get(i).getPId()))
 			{
+                q = quantity.get(i);
 				totalPrice -= price.get(i)*quantity.get(i);
 			      product.remove(i);
 			      quantity.remove(i);
@@ -79,6 +80,8 @@ class Cart{
 			      break;
              }
         }
+
+        return q;
     }
 
     public void discount()
@@ -186,8 +189,9 @@ class Cart{
             String id = "B" + (id1+1);
             for(int i=0; i<product.size();i++){
                 String pid = product.get(i).getPId();
-                if(pid.charAt(0) == 'P')
+                if(pid.charAt(0) == 'P'){
                     shipment.add(new Shipment(id,address,custId,product.get(i).getPId(),product.get(i).getPName(),quantity.get(i)));
+                }
                 else
                     continue;
             }
@@ -198,8 +202,8 @@ class Cart{
                     writer.print(s.getCustId() + ",");
                     writer.print(s.getProductId() + ",");
                     writer.print(s.getProducName()+ ",");
-                    writer.print(s.getQuantity() + ",");
-                    writer.print(s.getAddress());
+                    writer.print(s.getAddress() + ",");
+                    writer.print(s.getQuantity());
                     writer.println();
                 
             }
@@ -212,7 +216,7 @@ class Cart{
     public void ReadShipping(ArrayList<Shipment>shipment)
     {
         try{
-            Scanner in2 = new Scanner(new File("Shipping.csv"));
+            Scanner in2 = new Scanner(new File("shipping.csv"));
         in2.useDelimiter(",|\\n");
         String temp;
         String cid="" , pid="" , pname="" , sId="" , address = "";
@@ -223,12 +227,12 @@ class Cart{
             cid = in2.next();
             pid = in2.next();
             pname = in2.next();
-            temp = in2.next();
-            qty = Integer.parseInt(temp);
             address = in2.next();
+            temp = in2.next().trim();
+            qty = Integer.parseInt(temp);
             
-            //System.out.println(sid + " " + pid + " " + pname + " " + price + " " + quantity + " " + date + " " + brand + " " + weight);
-            shipment.add(new Shipment(sId , address,cid,pid,pname,qty));
+            //System.out.println(qty + " " + address);
+            shipment.add(new Shipment(sId,address,cid,pid,pname,qty));
         }
             in2.close();
     }catch(IOException e){
