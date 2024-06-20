@@ -47,33 +47,50 @@ class Customer extends User implements InnerCust_Int {
 
     public void viewProduct()
     {
+        System.out.println("\nPhysical Products : ");
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         System.out.printf("%-15s %-15s %-10s %-10s %-24s %-20s %-15s %-10s\n" , "Product ID" , "Name" , "Weight" , "Price" , "Quantity Available" , "Date Added" , "Brand" , "Review");
         for(Physical_Goods p : product)
         {
                 p.printDetails();
         }
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
-        System.out.printf("\n%-15s %-10s %-10s %-20s %-15s %-15s %-10s\n" , "Product ID" , "Name" , "Price" , "Date Added" , "Brand" , "Duration" , "Review");
+        System.out.println("\nServices : ");
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.printf("%-15s %-10s %-10s %-20s %-15s %-15s %-10s\n" , "Product ID" , "Name" , "Price" , "Date Added" , "Brand" , "Duration" , "Review");
         for(Services s : service)
         {
                 s.printDetails();
         }
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     }
 
     public void viewOrder() {
         cart.printCart();
     }
 
-    public void buyProducts(Scanner sc) {
+    public void addProduct(Scanner sc) {
         viewProduct();
         System.out.print("\nPlease enter the product ID : ");
         String id = sc.next();
-
+        id = id.toUpperCase();
 
         if(id.charAt(0)=='P')
         {
-            System.out.print("Please enter the quantity : ");
-            int quantity = sc.nextInt();
+            int quantity = 0;
+            do{
+                try{
+                    System.out.print("Please enter the quantity : ");
+                    quantity = sc.nextInt();
+                    sc.nextLine();
+                }catch(InputMismatchException e)
+                {
+                    System.out.println("Invalid quantity entered!");
+                    quantity = 0;
+                    sc.nextLine();
+                }
+            }while(quantity<=0);
             for(Physical_Goods pro : product)
             {
                 if(id.equals(pro.getPId()))
@@ -108,7 +125,20 @@ class Customer extends User implements InnerCust_Int {
 
         System.out.print("\nPlease enter the product ID to delete : ");
         String id = sc.next();
-        cart.removeItem(id);
+        id = id.toUpperCase();
+        int q = cart.removeItem(id);
+
+        if(id.charAt(0)=='P')
+        {
+            for(Physical_Goods pro : product)
+            {
+                if(id.equals(pro.getPId()))
+                {
+                        pro.setQuantity(pro.getQuantity()+q);
+                }
+            }
+
+        }
 
     }
 
