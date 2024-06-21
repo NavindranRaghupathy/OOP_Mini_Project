@@ -5,31 +5,36 @@ public class Commerce {
 
     static void menu()
     {
-        System.out.println("Welcome to our E-commerce website !");
+        System.out.println("\nWelcome to our E-commerce website !");
         System.out.println("\n1) Admin \n2) Customer \n3) Seller \n4) Shipping Agent");
-        System.out.print("Please selsect an option : ");
+        System.out.print("Please select an option : ");
     }
 
     static void SellerMenu()
     {
         System.out.println("\n1) View Products \n2) Add Products \n3) Update Products \n4) Remove Products \n5) Update Profile \n6) Logout");
-        System.out.print("Please selsect an option : ");
+        System.out.print("Please select an option : ");
     }
 
     static void CustMenu()
     {
         System.out.println("\n1) View Order \n2) Add Product to cart \n3) Remove Product from cart \n4) Make Payment \n5) Update Profile \n6) Logout");
-        System.out.print("Please selsect an option : ");
+        System.out.print("Please select an option : ");
     }
 
     static void CustMenu2()
     {
         System.out.println("\n1) Login \n2) Sign Up ");
-        System.out.print("Please selsect an option : ");
+        System.out.print("Please select an option : ");
     }
 
     static void ShippingAgentMenu(){
-        System.out.println("\n1) Order to be delivered \n2) Update order status \n3) View order \n4) Update profile \n5)Logout");
+        System.out.println("\n1) Choose order \n2) Update order status \n3) View order \n4) Update profile \n5) Logout");
+        System.out.print("Please select an option : ");
+    }
+
+    static void AdminMenu(){
+        System.out.println("\n1) Manage Users \n2) Update Profile \n3) Logout");
         System.out.print("Please select an option : ");
     }
 
@@ -184,6 +189,31 @@ public class Commerce {
              return new Seller("" , "" , "" , "" , "" ,"");
     }
 
+    static Admin adminLoginCheck (ArrayList<User> admin)
+    {
+            String uname2;
+            String pass2;
+
+            Console console = System.console();
+
+            System.out.println();
+
+            uname2 = console.readLine("Username: ");
+            char[] password = console.readPassword("Passowrd: ");
+            pass2 = new String(password);
+
+            for(User s : admin)
+            {
+                if(s.getUsername().equals(uname2) && s.getPass().equals(pass2))
+                {
+                    System.out.println("\nWelcome, " + s.getName());
+                    Admin a = new Admin(s.getID() , s.getName() , s.getEmail() , s.getUsername() , s.getPass());
+                    return a;
+                }
+             }
+             return new Admin("" , "" , "" , "" , "");
+    }
+
     static ArrayList<User> readShippingAgent(Scanner in)
     {
         in.useDelimiter(",|\\n");
@@ -231,6 +261,27 @@ public class Commerce {
              return new Shipping_Agent("" , "" , "" , "" , "" ,false);
     }
 
+    static ArrayList<User> readAdmin(Scanner in)
+    {
+        in.useDelimiter(",|\\n");
+        String name="" , id="" , email="" , uname="" , pass="" ;
+        ArrayList<User> s = new ArrayList<>();
+
+        while(in.hasNext())
+        {
+            id = in.next();
+            name = in.next();
+            email = in.next();
+            uname = in.next();
+            pass = in.next().trim();
+        
+            //System.out.println(name + " " + id + " " + email + " " + uname + " " + pass);
+            s.add(new Admin(id, name, email, uname, pass));
+        }
+            in.close();
+            return s;
+    }
+
     public static int checkvalidNum(Scanner sc ,int num)
     {
         try{
@@ -246,27 +297,56 @@ public class Commerce {
     public static void main(String[] args)throws IOException
     {
         Scanner sc = new Scanner(System.in);
-        Scanner in = new Scanner (new File("customer.csv"));
+        Scanner in = new Scanner (new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\customer.csv"));
         ArrayList<User> customers = readCustomer(in);
 
-        in = new Scanner (new File("Seller.csv"));
+        in = new Scanner (new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Seller.csv"));
         ArrayList<User> sellers = readSeller(in);
 
-        in = new Scanner(new File("Shipping_Agent.csv"));
+        in = new Scanner(new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Shipping_Agent.csv"));
         ArrayList<User> shippingAgent = readShippingAgent(in);
 
+        in = new Scanner (new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Admin.csv"));
+        ArrayList<User> admin = readAdmin(in);
        
         int opt1=0;
 
         do{
         User current = null;
+        do{
             menu();
             opt1 = checkvalidNum(sc, opt1);
             sc.nextLine();
+        }while(opt1==0);
 
         switch(opt1)
         {
-            case 1 : break;
+            case 1 : int optAdmin = 0;
+                     do{
+                        current = adminLoginCheck(admin);
+                    }while(current.getName().equals(""));
+                     //Admin admin = new Admin("1", "Admin", "admin@example.com", "admin", "admin123");
+                    //  admin.Login(sc);
+                    //  admin.manageUsers(sc);
+                    do{
+                        do{
+                            AdminMenu();
+                            optAdmin = checkvalidNum(sc, optAdmin);
+                            sc.nextLine();
+                        }while(optAdmin==0);
+
+                        switch(optAdmin){
+                            case 1 : current.manageUsers(sc);
+                                    break;
+                            case 2 : current.updateProfile(sc, admin);
+                                    break;
+                            case 3 : current.Logout(admin);
+                                    break;
+                            default :  System.out.println("Invalid option entered!\n");
+                                        break;
+                        }
+                    }while(optAdmin>=1 && optAdmin<=3);
+                     break;
 
             case 2 : int custopt=0;
                         do{
@@ -291,9 +371,9 @@ public class Commerce {
 
                      }
                 
-                        in = new Scanner (new File("physical_product.csv"));
+                        in = new Scanner (new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\physical_product.csv"));
                         ArrayList<Physical_Goods> physical = readPhysical(in);
-                        in = new Scanner (new File("Service_Product.csv"));
+                        in = new Scanner (new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Service_Product.csv"));
                         ArrayList<Services> service = readServices(in);
                         current.ReadCustPhysical(physical);
                         current.ReadCustService(service);
@@ -313,14 +393,15 @@ public class Commerce {
                                     break;
                             case 3 : current.deleteProduct(sc);
                                     break;
-                            case 4 : in = new Scanner (new File("Review.csv"));
+                            case 4 : in = new Scanner (new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Review.csv"));
                             		 current.checkout(in , sc);
                                      break;
                             case 5 : current.updateProfile(sc , customers);
                                      break;
                             case 6 : current.Logout(customers);
                                      break;
-                              default : break;
+                              default :  System.out.println("Invalid option entered!\n");
+                                        break;
                         }
 
                      }while(opt2>=1 && opt2<6);
@@ -334,9 +415,9 @@ public class Commerce {
                             //System.exit(0);
                         }
                     }while(current.getName().equals(""));
-                     in = new Scanner (new File("physical_product.csv"));
+                     in = new Scanner (new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\physical_product.csv"));
                      current.ReadPhysicalProduct(in);
-                     in = new Scanner (new File("Service_Product.csv"));
+                     in = new Scanner (new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Service_Product.csv"));
                      current.ReadServiceProduct(in);
                      int optSell = 0;
                      do{
@@ -397,7 +478,7 @@ public class Commerce {
                     }
                 }while(opt4>=1 && opt4<=5);
 
-            default : 
+            default :  System.out.println("Invalid option entered!\n");
                         break;
             }
 
