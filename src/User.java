@@ -58,9 +58,9 @@ abstract class User {
 
     public void SignUp(ArrayList<User> user , Scanner sc) {}
 
-    public void Logout(ArrayList<User> user) {}
+    public abstract void Logout(ArrayList<User> user);
 
-    public void updateProfile(Scanner sc , ArrayList<User> user){}
+    public abstract void updateProfile(Scanner sc , ArrayList<User> user);
 
     public void addProduct(Scanner sc){}
     public void updateProduct(Scanner sc){}
@@ -68,6 +68,5 @@ abstract class User {
 
     public void viewOrder(){}
     public void checkout(Scanner in , Scanner sc){}
-
-    public void updateProfile(Scanner sc , ArrayList<User> user,String fileName){}
+    public void manageUsers(Scanner sc){}
 }
