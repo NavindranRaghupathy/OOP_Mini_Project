@@ -43,7 +43,7 @@ class Seller extends User {
 
     public void writeServices()
     {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("Service_Product.csv"))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Service_Product.csv"))) {
             for (Services s : service) {
                     writer.print(s.getSID() + ",");
                     writer.print(s.getPId() + ",");
@@ -118,9 +118,9 @@ class Seller extends User {
             System.out.print("\nPlease select an option : ");
             opt1 = sc.nextInt();
             sc.nextLine();
-        }while(opt1<1 || opt1>1);
+        }while(opt1<1 || opt1>2);
 
-        System.out.println("Please enter the product details =>");
+        System.out.println("\nPlease enter the product details =>");
 
         if(opt1==1)
         {
@@ -188,18 +188,18 @@ class Seller extends User {
         viewProduct();
         int opt1;
 
-        do{
-            System.out.print("\n1) Physical goods \n2) Services \n");
-            System.out.print("\nPlease select an option : ");
-            opt1 = sc.nextInt();
-            sc.nextLine();
-        }while(opt1<1 || opt1>2);
+        // do{
+        //     System.out.print("\n1) Physical goods \n2) Services \n");
+        //     System.out.print("\nPlease select an option : ");
+        //     opt1 = sc.nextInt();
+        //     sc.nextLine();
+        // }while(opt1<1 || opt1>2);
+        System.out.print("\nPlease enter ID of product : ");
+        String id1 = sc.next();
+        id1 = id1.toUpperCase();
 
-        if(opt1==1)
+        if(id1.charAt(0)=='P')
         {
-            System.out.print("\nPlease enter ID of product : ");
-            String id1 = sc.next();
-            id1 = id1.toUpperCase();
             System.out.print("\n1) Product Name \n2) Price \n3) Brand \n4) Quantity");
             System.out.print("\nPlease select an option : ");
             opt1 = sc.nextInt();
@@ -251,11 +251,8 @@ class Seller extends User {
             
         }
 
-        else if(opt1==2)
+        else if(id1.charAt(0)=='C')
         {
-            System.out.print("\nPlease enter ID of product : ");
-            String id1 = sc.next();
-            id1 = id1.toUpperCase();
             System.out.print("\n1) Product Name \n2) Price \n3) Brand \n4) Duration");
             System.out.print("\nPlease select an option : ");
             opt1 = sc.nextInt();
@@ -314,20 +311,20 @@ class Seller extends User {
     public void deleteProduct(Scanner sc)
     {
         viewProduct();
-        int opt1;
+        // int opt1;
 
-        do{
-            System.out.print("\n1) Physical goods \n2) Services \n");
-            System.out.print("\nPlease select an option : ");
-            opt1 = sc.nextInt();
-            sc.nextLine();
-        }while(opt1<1 || opt1>2);
+        // do{
+        //     System.out.print("\n1) Physical goods \n2) Services \n");
+        //     System.out.print("\nPlease select an option : ");
+        //     opt1 = sc.nextInt();
+        //     sc.nextLine();
+        // }while(opt1<1 || opt1>2);
 
         System.out.print("\nPlease enter ID of product : ");
         String id1 = sc.next();
         id1 = id1.toUpperCase();
 
-        if(opt1==1)
+        if(id1.charAt(0)=='P')
         {
             for(int i=0;i<product.size();i++)
             {
@@ -339,7 +336,7 @@ class Seller extends User {
             //writePhysicalGoods();
         }
 
-        else if(opt1==2)
+        else if(id1.charAt(0)=='C')
         {
             for(int i=0;i<service.size();i++)
             {
