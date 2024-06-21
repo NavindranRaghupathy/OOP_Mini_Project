@@ -162,13 +162,14 @@ class Customer extends User implements InnerCust_Int {
     }
 
     public void checkout(Scanner in , Scanner sc) {
-        cart.checkout(getName() , getID() , address);
-        // cart.printReceipt(getName());
-        // cart.writeReceipt(getName());
-        writePhysicalGoods();
-        giveReview(in , sc);
-        
-        cart.removeAllProduct();
+        boolean status = cart.checkout(getName() , getID() , address);
+
+        if(status)
+        {
+            writePhysicalGoods();
+            giveReview(in , sc);
+            cart.removeAllProduct();
+        }
     }
 
     public void updateProfile(Scanner sc , ArrayList<User> user)
@@ -227,7 +228,7 @@ class Customer extends User implements InnerCust_Int {
     public void SignUp(ArrayList<User> user , Scanner sc)
     {
         String name="" , id="" , email="" , uname="" , pass="" , address="" , phone="" , pass2="";
-            System.out.println("Please enter following details");
+            System.out.println("\nPlease enter following details");
             System.out.print("\nName : ");
             name = sc.nextLine();
             System.out.print("Email : ");
@@ -241,7 +242,7 @@ class Customer extends User implements InnerCust_Int {
             System.out.print("Pass : ");
             pass = sc.nextLine();
             do{
-            System.out.print("\nRe-enter pass : ");
+            System.out.print("Re-enter pass : ");
             pass2 = sc.nextLine();
         }while(!pass.equals(pass2));
 
@@ -303,10 +304,10 @@ class Customer extends User implements InnerCust_Int {
 
         ArrayList<Product> p = cart.getProduct();
 
-        System.out.println("\nPlease give rating for the products you order =>\n");
+        System.out.println("\nPlease give rating out of 5.0 for the products you order =>\n");
         for(int i=0;i<p.size();i++)
         {
-            System.out.print(p.get(i).getPName() + "(" + p.get(i).getBrand() + ") : ");
+            System.out.print(p.get(i).getPName() + " (" + p.get(i).getBrand() + ") : ");
             float rating = sc.nextFloat();
 
             for(int j=0;j<n;j++)
