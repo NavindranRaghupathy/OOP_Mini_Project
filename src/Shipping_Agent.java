@@ -20,8 +20,8 @@ public class Shipping_Agent extends User {
     public Shipping_Agent(String id, String name, String email, String username, String pass , boolean availability) {
         super(id, name, email, username, pass);
         this.availability = availability;
-       shippingStatus = new ArrayList<String>();
-       AgentShipment = new ArrayList<>();
+        shippingStatus = new ArrayList<String>();
+        AgentShipment = new ArrayList<>();
         shipment = new ArrayList<>();
     }
 
@@ -75,7 +75,8 @@ public class Shipping_Agent extends User {
                         setPass(pass);
                         break;
                 case 4 : System.out.print("\nAvailability: ");
-                        System.out.print("\n1)Available \n2)Not Available");
+                        System.out.println("\n1)Available \n2)Not Available");
+                        System.out.print("Choose your availability : ");
                         int opt2 = sc.nextInt();
                         switch(opt2){
                             case 1: availability1 = true; break;
@@ -127,7 +128,7 @@ public class Shipping_Agent extends User {
     { 
         if(!st2){
         try{
-            Scanner in2 = new Scanner(new File("shipping.csv"));
+            Scanner in2 = new Scanner(new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\shipping.csv"));
         in2.useDelimiter(",|\\n");
         String temp;
         String cid="" , pid="" , pname="" , sId="" , address = "";
@@ -219,23 +220,23 @@ public void AgentFile(Scanner kv){
     }
     st3 = true;
 }
+        in2.close();
+        //ViewOrderForDelivery();
+
+}catch(IOException e){
+    System.out.println("\nNo orders!");
+}
 
     System.out.print("Please enter Shipping Id : ");
     id = kv.next();
     id = id.toUpperCase();
     for (Shipment s : shipment) {
 
-        if(id.equals(s.getShippingId())){
-            AgentShipment.add(new Shipment(s.getShippingId() , s.getAddress() , s.getCustId() , s.getProductId() , s.getProducName() , s.getQuantity()));
-            shippingStatus.add(null);
-            // writer.println();
-        }
+    if(id.equals(s.getShippingId())){
+        AgentShipment.add(new Shipment(s.getShippingId() , s.getAddress() , s.getCustId() , s.getProductId() , s.getProducName() , s.getQuantity()));
+        shippingStatus.add(null);
+        // writer.println();
     }
-        in2.close();
-        //ViewOrderForDelivery();
-
-}catch(IOException e){
-    System.out.println("File not found");
 }
 
     for(int i=0;i<shipment.size();i++)
@@ -300,6 +301,7 @@ public void UpdateOrder(Scanner kv){
 }
 
 public void ViewOrderForDelivery(){
+
     System.out.printf("\n%-4s %-4s %-4s %-15s %-10s %-35s %-15s\n","SID","CID","PID","PName","Quantity","Address","Shipping Status");
     for(int i=0;i<AgentShipment.size();i++){
         System.out.printf("%-4s %-4s %-4s %-15s %-10d %-35s %-15s \n",AgentShipment.get(i).getShippingId(),AgentShipment.get(i).getCustId(),AgentShipment.get(i).getProductId(),AgentShipment.get(i).getProducName(),AgentShipment.get(i).getQuantity(),AgentShipment.get(i).getAddress(),shippingStatus.get(i));
