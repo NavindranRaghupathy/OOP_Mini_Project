@@ -24,7 +24,7 @@ class Services extends Product{
         if(review==null){
             try{
                 review = new ArrayList<>();
-                Scanner in2 = new Scanner(new File("Review.csv"));
+                Scanner in2 = new Scanner(new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Review.csv"));
     
                 in2.useDelimiter(",|\\n");
                 String temp;
