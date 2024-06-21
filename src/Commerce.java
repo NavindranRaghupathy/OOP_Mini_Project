@@ -297,13 +297,13 @@ public class Commerce {
     public static void main(String[] args)throws IOException
     {
         Scanner sc = new Scanner(System.in);
-        Scanner in = new Scanner (new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\customer.csv"));
+        Scanner in = new Scanner (new File("/workspaces/OOP_Mini_Project/src/customer.csv"));
         ArrayList<User> customers = readCustomer(in);
 
-        in = new Scanner (new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Seller.csv"));
+        in = new Scanner (new File("/workspaces/OOP_Mini_Project/src/Seller.csv"));
         ArrayList<User> sellers = readSeller(in);
 
-        in = new Scanner(new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Shipping_Agent.csv"));
+        in = new Scanner(new File("/workspaces/OOP_Mini_Project/src/Shipping_Agent.csv"));
         ArrayList<User> shippingAgent = readShippingAgent(in);
 
         in = new Scanner (new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Admin.csv"));
@@ -325,9 +325,7 @@ public class Commerce {
                      do{
                         current = adminLoginCheck(admin);
                     }while(current.getName().equals(""));
-                     //Admin admin = new Admin("1", "Admin", "admin@example.com", "admin", "admin123");
-                    //  admin.Login(sc);
-                    //  admin.manageUsers(sc);
+                     
                     do{
                         do{
                             AdminMenu();
@@ -336,7 +334,7 @@ public class Commerce {
                         }while(optAdmin==0);
 
                         switch(optAdmin){
-                            case 1 : current.manageUsers(sc);
+                            case 1 : //current.manageUsers(sc);
                                     break;
                             case 2 : current.updateProfile(sc, admin);
                                     break;
