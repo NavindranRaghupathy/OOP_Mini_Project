@@ -306,7 +306,7 @@ public class Commerce {
         in = new Scanner(new File("/workspaces/OOP_Mini_Project/src/Shipping_Agent.csv"));
         ArrayList<User> shippingAgent = readShippingAgent(in);
 
-        in = new Scanner (new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Admin.csv"));
+        in = new Scanner (new File("/workspaces/OOP_Mini_Project/src/Admin.csv"));
         ArrayList<User> admin = readAdmin(in);
        
         int opt1=0;
@@ -334,7 +334,7 @@ public class Commerce {
                         }while(optAdmin==0);
 
                         switch(optAdmin){
-                            case 1 : //current.manageUsers(sc);
+                            case 1 : current.manageUsers(sc);
                                     break;
                             case 2 : current.updateProfile(sc, admin);
                                     break;

@@ -78,9 +78,9 @@ public class Admin extends User {
     }
 
     public void loadUsers() {
-        customers = readCustomer("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\customer.csv");
-        sellers = readSeller("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Seller.csv");
-        agents = readShippingAgent("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Shipping_Agent.csv");
+        customers = readCustomer("/workspaces/OOP_Mini_Project/src/customer.csv");
+        sellers = readSeller("/workspaces/OOP_Mini_Project/src/Seller.csv");
+        agents = readShippingAgent("/workspaces/OOP_Mini_Project/src/Shipping_Agent.csv");
     }
 
     public void saveUsers() {
