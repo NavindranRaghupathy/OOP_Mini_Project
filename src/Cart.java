@@ -171,7 +171,7 @@ class Cart{
         }
     }
 
-    public void checkout(String name , String custId,String address)
+    public boolean checkout(String name , String custId,String address)
     {
         discount();
         payment = new Payment(cart_id, afterDisc);
@@ -211,12 +211,14 @@ class Cart{
             System.out.println("Error : File not found");
         }
     }
+
+        return payment.getStatus();
     }
 
     public void ReadShipping(ArrayList<Shipment>shipment)
     {
         try{
-            Scanner in2 = new Scanner(new File("shipping.csv"));
+            Scanner in2 = new Scanner(new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\shipping.csv"));
         in2.useDelimiter(",|\\n");
         String temp;
         String cid="" , pid="" , pname="" , sId="" , address = "";
