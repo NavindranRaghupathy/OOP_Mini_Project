@@ -218,7 +218,7 @@ class Cart{
     public void ReadShipping(ArrayList<Shipment>shipment)
     {
         try{
-            Scanner in2 = new Scanner(new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\shipping.csv"));
+            Scanner in2 = new Scanner(new File("/workspaces/OOP_Mini_Project/src/shipping.csv"));
         in2.useDelimiter(",|\\n");
         String temp;
         String cid="" , pid="" , pname="" , sId="" , address = "";

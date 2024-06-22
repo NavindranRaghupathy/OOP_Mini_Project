@@ -43,7 +43,7 @@ class Seller extends User {
 
     public void writeServices()
     {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Service_Product.csv"))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("Service_Product.csv"))) {
             for (Services s : service) {
                     writer.print(s.getSID() + ",");
                     writer.print(s.getPId() + ",");

@@ -369,9 +369,9 @@ public class Commerce {
 
                      }
                 
-                        in = new Scanner (new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\physical_product.csv"));
+                        in = new Scanner (new File("/workspaces/OOP_Mini_Project/src/physical_product.csv"));
                         ArrayList<Physical_Goods> physical = readPhysical(in);
-                        in = new Scanner (new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Service_Product.csv"));
+                        in = new Scanner (new File("/workspaces/OOP_Mini_Project/src/Service_Product.csv"));
                         ArrayList<Services> service = readServices(in);
                         current.ReadCustPhysical(physical);
                         current.ReadCustService(service);
@@ -391,7 +391,7 @@ public class Commerce {
                                     break;
                             case 3 : current.deleteProduct(sc);
                                     break;
-                            case 4 : in = new Scanner (new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Review.csv"));
+                            case 4 : in = new Scanner (new File("/workspaces/OOP_Mini_Project/src/Review.csv"));
                             		 current.checkout(in , sc);
                                      break;
                             case 5 : current.updateProfile(sc , customers);
@@ -413,9 +413,9 @@ public class Commerce {
                             //System.exit(0);
                         }
                     }while(current.getName().equals(""));
-                     in = new Scanner (new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\physical_product.csv"));
+                     in = new Scanner (new File("/workspaces/OOP_Mini_Project/src/physical_product.csv"));
                      current.ReadPhysicalProduct(in);
-                     in = new Scanner (new File("C:\\Users\\gopen\\OneDrive\\Desktop\\OOP VS CODE\\OOP Final Progress\\Service_Product.csv"));
+                     in = new Scanner (new File("/workspaces/OOP_Mini_Project/src/Service_Product.csv"));
                      current.ReadServiceProduct(in);
                      int optSell = 0;
                      do{
