@@ -10,6 +10,7 @@ class Payment {
     private String credit_card_no , cvv , expiry;
 
 
+    // Constructor to initialize Payment object with payment_id and amount
     public Payment(String payment_id, double amount) {
         this.payment_id = payment_id;
         this.amount = amount;
@@ -17,33 +18,38 @@ class Payment {
         transaction_date = LocalDate.now();
     }
 
-    // Setters
+    // Setter method for payment_id
     public void setPaymentId(String payment_id) {
         this.payment_id = payment_id;
     }
 
+    // Setter method for amount
     public void setAmount(double amount) {
         this.amount = amount;
     }
 
+    // Setter method for status
     public void setStatus(boolean status) {
         this.status = status;
     }
 
 
-    // Getters
+    // Getter method for payment_id
     public String getPaymentId() {
         return payment_id;
     }
 
+    // Getter method for amount
     public double getAmount() {
         return amount;
     }
 
+    // Getter method for status
     public boolean getStatus() {
         return status;
     }
 
+    // Method to get the formatted transaction date
     public String getDate()
     {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -51,13 +57,14 @@ class Payment {
         return date;
     }
 
+    // Method to display the total amount in a dialog
     public void displayAmount()
     {
         JOptionPane.showMessageDialog(null, "Total Amount: RM " + String.format("%.2f", amount));
     }
 
 
-    // Methods
+    // Method to handle the payment process
     public void pay() {
         // Implement payment logic
 
@@ -95,11 +102,13 @@ class Payment {
             // System.out.println("CVV: " + cvv);
             status = true;
         } else {
+            // Set payment status to false and display cancellation message
             status = false;
             JOptionPane.showMessageDialog(null, "You canceled the payment");
         }
     }
 
+    // Method to cancel the payment
     public void cancel_payment() {
         // Implement cancel payment logic
         this.status = false;
