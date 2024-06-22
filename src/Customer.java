@@ -1,19 +1,16 @@
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.*;
-import java.io.*;
+import java.util.*; //import all the class from java.util package for reading user input
+import java.io.*; //import all the class from the java.io package for reading and writing files
 
 
 class Customer extends User implements InnerCust_Int {
-    private String address;
-    private String phone_no;
-    private ArrayList<Physical_Goods> product;
-    private ArrayList<Services> service;
-    private Cart cart;
-    private Review[] review;
+    private String address; //variable that stores address of customer
+    private String phone_no; //variable that stores phone number of customer
+    private ArrayList<Physical_Goods> product; // Arraylist that store physical product object
+    private ArrayList<Services> service; // Arraylist that store service object
+    private Cart cart; // cart varible to store cart object
+    private Review[] review; // Array of objects for the review class
 
-    public Customer(String id, String name, String email, String username, String pass, String address, String phone_no) {
+    public Customer(String id, String name, String email, String username, String pass, String address, String phone_no) { //Constructor to initialize item with the given attributes
         super(id, name, email, username, pass);
         this.address = address;
         this.phone_no = phone_no;
@@ -21,31 +18,29 @@ class Customer extends User implements InnerCust_Int {
         review = new Review[50];
     }
 
-    public Customer() {
-
-    }
+    public Customer() {} // Default constructor used to create empty object
 
 
 
-    public void ReadCustPhysical(ArrayList<Physical_Goods> p)
+    public void ReadCustPhysical(ArrayList<Physical_Goods> p) // Method to assign the physical product arraylist (p) to class physical product arraylist (product)
     {
         product = p;
     }
 
-    public void ReadCustService(ArrayList<Services> s)
+    public void ReadCustService(ArrayList<Services> s) // Method to assign the Service arraylist (s) to class Services arraylist (service)
     {
         service = s;
     }
 
-    public String getAddress() {
+    public String getAddress() { // Accessor for address variable
         return address;
     }
 
-    public String getPhoneNo() {
+    public String getPhoneNo() { // Accessor for phone_no variable
         return phone_no;
     }
 
-    public void viewProduct()
+    public void viewProduct() // Method that that customer use to display the contents of the product and service arraylist
     {
         System.out.println("\nPhysical Products : ");
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -66,11 +61,11 @@ class Customer extends User implements InnerCust_Int {
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     }
 
-    public void viewOrder() {
+    public void viewOrder() { //Method that customer use to call printCart() function from cart using cart reference variable
         cart.printCart();
     }
 
-    public void addProduct(Scanner sc) {
+    public void addProduct(Scanner sc) { //Method that the customer use to add product and quantity into cart
         viewProduct();
         System.out.print("\nPlease enter the product ID : ");
         String id = sc.next();
@@ -119,7 +114,7 @@ class Customer extends User implements InnerCust_Int {
         //viewOrder();
     }
 
-    public void deleteProduct(Scanner sc)
+    public void deleteProduct(Scanner sc) //Method that the customer use to delete product from the cart
     {
         viewOrder();
 
@@ -142,7 +137,7 @@ class Customer extends User implements InnerCust_Int {
 
     }
 
-    public void writePhysicalGoods()
+    public void writePhysicalGoods() //Method to save the physical product information into physical_product.csv
     {
         try (PrintWriter writer = new PrintWriter(new FileWriter("physical_product.csv"))) {
             for (Physical_Goods p : product) {
@@ -161,7 +156,7 @@ class Customer extends User implements InnerCust_Int {
         }
     }
 
-    public void checkout(Scanner in , Scanner sc) {
+    public void checkout(Scanner in , Scanner sc) { //Method that the customer use to make payment for the items added to the cart
         boolean status = cart.checkout(getName() , getID() , address);
 
         if(status)
@@ -172,7 +167,7 @@ class Customer extends User implements InnerCust_Int {
         }
     }
 
-    public void updateProfile(Scanner sc , ArrayList<User> user)
+    public void updateProfile(Scanner sc , ArrayList<User> user) //Method that the customer use to update his profile (name , email , username , password , address , phone number)
     {
         viewProfile();
         String name , email , uname , pass ;
@@ -225,7 +220,7 @@ class Customer extends User implements InnerCust_Int {
         }
     }
 
-    public void SignUp(ArrayList<User> user , Scanner sc)
+    public void SignUp(ArrayList<User> user , Scanner sc) //Method that the customer use to sign up to the system if the user doesn't have an account before this
     {
         String name="" , id="" , email="" , uname="" , pass="" , address="" , phone="" , pass2="";
             System.out.println("\nPlease enter following details");
@@ -255,7 +250,7 @@ class Customer extends User implements InnerCust_Int {
 
     }
 
-    public int readReview(Scanner in)
+    public int readReview(Scanner in) //Method used to read the Review from a csv file and save it to review Arraylist
     {
         in.useDelimiter(",|\\n");
         String temp;
@@ -280,7 +275,7 @@ class Customer extends User implements InnerCust_Int {
             return i;
     }
 
-    public void writeReview(int n)
+    public void writeReview(int n) //Save all the Review information into Review.csv
     {
         try (PrintWriter writer = new PrintWriter(new FileWriter("Review.csv"))) {
             for (int i=0;i<n;i++) {
@@ -296,7 +291,7 @@ class Customer extends User implements InnerCust_Int {
         }
     }
 
-    public void giveReview(Scanner in , Scanner sc)
+    public void giveReview(Scanner in , Scanner sc) //Method that the customer use to give rating to the products purchased
     {
         int n=0;
 		n = readReview(in);
@@ -336,7 +331,7 @@ class Customer extends User implements InnerCust_Int {
         writeReview(n);
     }
 
-    public void viewProfile()
+    public void viewProfile() //Method that display the information about the customer (name , email , address and phone number)
     {
         System.out.println("\nName : " + getName());
         System.out.println("Email : " + getEmail());
@@ -344,7 +339,7 @@ class Customer extends User implements InnerCust_Int {
         System.out.println("Phone num : " + phone_no);
     }
 
-    public void Logout(ArrayList<User> user)
+    public void Logout(ArrayList<User> user) //Method that the customer use to log out from the system
     {
         try (PrintWriter writer = new PrintWriter(new FileWriter("customer.csv"))) {
             for (User u : user) {

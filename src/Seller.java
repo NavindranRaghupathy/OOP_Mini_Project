@@ -1,10 +1,7 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.io.*;
 
 class Seller extends User {
     private String Store_name;
