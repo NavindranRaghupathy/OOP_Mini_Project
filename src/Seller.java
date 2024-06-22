@@ -1,25 +1,25 @@
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.io.*;
+import java.time.LocalDate; //import all LocalDate class from java.time package
+import java.time.format.DateTimeFormatter; //import DateTimeFormatter from java.time.format package
+import java.util.*; //import all the classes from java.util package
+import java.io.*; //import all the classes from java.io package
 
 class Seller extends User {
-    private String Store_name;
-    private ArrayList<Physical_Goods> product;
-    private ArrayList<Services> service;
+    private String Store_name; //variable that stores store name of seller
+    private ArrayList<Physical_Goods> product; // Arraylist that store physical product object
+    private ArrayList<Services> service; // Arraylist that store service object
 
-    public Seller(String id, String name, String email, String username, String pass, String Store_name) {
+    public Seller(String id, String name, String email, String username, String pass, String Store_name) { //Constructor to initialize item with the given attributes
         super(id, name , email, username, pass);
         this.Store_name = Store_name;
         product = new ArrayList<>();
         service = new ArrayList<>();
     }
 
-    public String getStoreName() {
+    public String getStoreName() { // Accessor for Store_name variable
         return Store_name;
     }
 
-    public void writePhysicalGoods()
+    public void writePhysicalGoods() //Method to save the physical product information into physical_product.csv
     {
         try (PrintWriter writer = new PrintWriter(new FileWriter("physical_product.csv"))) {
             for (Physical_Goods p : product) {
@@ -38,7 +38,7 @@ class Seller extends User {
         }
     }
 
-    public void writeServices()
+    public void writeServices() //Method to save the service information into Service_Product.csv
     {
         try (PrintWriter writer = new PrintWriter(new FileWriter("Service_Product.csv"))) {
             for (Services s : service) {
@@ -56,7 +56,7 @@ class Seller extends User {
         }
     }
 
-    public void ReadPhysicalProduct(Scanner in)
+    public void ReadPhysicalProduct(Scanner in) //Method used to read the Physical Product from a csv file and save it to the product arraylist
     {
         in.useDelimiter(",|\\n");
         String temp;
@@ -83,7 +83,7 @@ class Seller extends User {
             in.close();
     }
 
-    public void ReadServiceProduct(Scanner in)
+    public void ReadServiceProduct(Scanner in) //Method used to read the Services from a csv file and save it to the service arraylist
     {
         in.useDelimiter(",|\\n");
         String temp;
@@ -106,7 +106,7 @@ class Seller extends User {
             in.close();
     }
 
-    public void addProduct(Scanner sc) {
+    public void addProduct(Scanner sc) { //Method that the seller use to add products
 
         //viewProduct();
         int opt1;
@@ -181,7 +181,7 @@ class Seller extends User {
     }
     
 
-    public void updateProduct(Scanner sc) {
+    public void updateProduct(Scanner sc) { //Method that the seller use to update products
         viewProduct();
         int opt1;
 
@@ -305,7 +305,7 @@ class Seller extends User {
     }
 
     
-    public void deleteProduct(Scanner sc)
+    public void deleteProduct(Scanner sc) //Method that the seller use to delete products
     {
         viewProduct();
         // int opt1;
@@ -347,14 +347,14 @@ class Seller extends User {
         
     }
 
-    public void viewProfile()
+    public void viewProfile() //Method that display the information about the seller (name , email and store name)
     {
         System.out.println("\nName : " + getName());
         System.out.println("Email : " + getEmail());
         System.out.println("Store Name : " + Store_name);
     }
 
-    public void updateProfile(Scanner sc , ArrayList<User> user)
+    public void updateProfile(Scanner sc , ArrayList<User> user) //Method that the seller use to update his profile (name , email , username , password and store name)
     {
         viewProfile();
         String name , email , uname , pass ;
@@ -404,7 +404,7 @@ class Seller extends User {
         }
     }
 
-    public void viewProduct() {
+    public void viewProduct() {  // Method that that seller use to display the contents of the product and service arraylist
         System.out.println("\nPhysical Products : ");
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         System.out.printf("%-15s %-15s %-10s %-10s %-24s %-20s %-15s %-10s\n" , "Product ID" , "Name" , "Weight" , "Price" , "Quantity Available" , "Date Added" , "Brand" , "Review");
@@ -426,7 +426,7 @@ class Seller extends User {
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     }
 
-    public void Logout(ArrayList<User> user) {
+    public void Logout(ArrayList<User> user) { //Method that the seller use to log out from the system
         writePhysicalGoods();
         writeServices();
         try (PrintWriter writer = new PrintWriter(new FileWriter("Seller.csv"))) {
