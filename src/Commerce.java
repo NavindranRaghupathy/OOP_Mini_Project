@@ -297,17 +297,19 @@ public class Commerce {
     public static void main(String[] args)throws IOException
     {
         Scanner sc = new Scanner(System.in);
-        Scanner in = new Scanner (new File("/workspaces/OOP_Mini_Project/src/customer.csv"));
-        ArrayList<User> customers = readCustomer(in);
-
-        in = new Scanner (new File("/workspaces/OOP_Mini_Project/src/Seller.csv"));
-        ArrayList<User> sellers = readSeller(in);
-
-        in = new Scanner(new File("/workspaces/OOP_Mini_Project/src/Shipping_Agent.csv"));
-        ArrayList<User> shippingAgent = readShippingAgent(in);
-
-        in = new Scanner (new File("/workspaces/OOP_Mini_Project/src/Admin.csv"));
+        // Scanner in = new Scanner (new File("/workspaces/OOP_Mini_Project/src/customer.csv"));
+        // ArrayList<User> customers = readCustomer(in);
+        
+        Scanner in = new Scanner (new File("/workspaces/OOP_Mini_Project/src/Admin.csv"));
         ArrayList<User> admin = readAdmin(in);
+
+        // in = new Scanner (new File("/workspaces/OOP_Mini_Project/src/Seller.csv"));
+        // ArrayList<User> sellers = readSeller(in);
+
+        // in = new Scanner(new File("/workspaces/OOP_Mini_Project/src/Shipping_Agent.csv"));
+        // ArrayList<User> shippingAgent = readShippingAgent(in);
+
+        
        
         int opt1=0;
 
@@ -346,7 +348,9 @@ public class Commerce {
                     }while(optAdmin>=1 && optAdmin<=3);
                      break;
 
-            case 2 : int custopt=0;
+            case 2 : in = new Scanner (new File("/workspaces/OOP_Mini_Project/src/customer.csv"));
+                     ArrayList<User> customers = readCustomer(in);
+                     int custopt=0;
                         do{
                         CustMenu2();
                         custopt = checkvalidNum(sc , custopt);
@@ -405,7 +409,8 @@ public class Commerce {
                      }while(opt2>=1 && opt2<6);
                      break;
 
-            case 3 : 
+            case 3 : in = new Scanner (new File("/workspaces/OOP_Mini_Project/src/Seller.csv"));
+                     ArrayList<User> sellers = readSeller(in);
                     do{
                         current = sellerLoginCheck(sellers);
                         if(current.getName().equals("")){
@@ -444,41 +449,45 @@ public class Commerce {
                     }while(optSell>=1 && optSell<=6);
                      break;
                      
-                case 4 : current = ShippingAgentLoginCheck(shippingAgent);
-                     if(current.getName().equals(""))
-                    {
-                        System.out.println("Incorrect Username or password");
-                        System.exit(0);
-                    }
-                    int opt4=0;
-                    do{
-                        do{
-                            ShippingAgentMenu();
-                            opt4 = checkvalidNum(sc, opt4);
-                        }while(opt4==0);
-                    switch(opt4)
-                    {
-                        case 1 : current.ReadShipping();
-                                 current.ViewFile();
-                                 current.AgentFile(sc);
-                                 break;
-                        case 2 : current.UpdateOrder(sc);
-                                break;
-                        case 3 : current.ViewOrderForDelivery();
-                                    break;
-                        case 4 : current.updateProfile(sc, shippingAgent);
-                                 break;
-                        case 5: current.Logout(shippingAgent);
-                                break;
-                    default:
-                        System.out.println("Invalid option selected!");
-                        break;
-                    }
-                }while(opt4>=1 && opt4<=5);
+                case 4 : in = new Scanner(new File("/workspaces/OOP_Mini_Project/src/Shipping_Agent.csv"));
+                         ArrayList<User> shippingAgent = readShippingAgent(in);
 
-            default :  System.out.println("Invalid option entered!\n");
-                        break;
-            }
+                         do{
+                        current = ShippingAgentLoginCheck(shippingAgent);
+                        if(current.getName().equals(""))
+                        {
+                            System.out.println("Incorrect Username or password");
+                        }}while(current.getName().equals(""));
+                        int opt4=0;
+                        do{
+                            do{
+                                ShippingAgentMenu();
+                                opt4 = checkvalidNum(sc, opt4);
+                                sc.nextLine();
+                            }while(opt4==0);
+                        switch(opt4)
+                        {
+                            case 1 : current.ReadShipping();
+                                    current.ViewFile();
+                                    current.AgentFile(sc);
+                                    break;
+                            case 2 : current.UpdateOrder(sc);
+                                    break;
+                            case 3 : current.ViewOrderForDelivery();
+                                        break;
+                            case 4 : current.updateProfile(sc, shippingAgent);
+                                    break;
+                            case 5: current.Logout(shippingAgent);
+                                    break;
+                        default:
+                            System.out.println("Invalid option selected!");
+                            break;
+                        }
+                    }while(opt4>=1 && opt4<=5);
+
+                default :  System.out.println("Invalid option entered!\n");
+                            break;
+                }
 
         }while(opt1<1 || opt1>4);
 
